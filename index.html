@@ -75,6 +75,9 @@
   .habits h3{margin:0 0 10px;font-size:16px}
   .habits ol{margin:0;padding-left:20px;font-size:15px} .habits li{margin:6px 0}
   .note{font-size:13px;color:var(--slate);margin-top:20px}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+  .actions .btn{flex:1 1 auto;min-width:140px}
+  .saved{font-size:13px;color:var(--slate);margin-top:10px;min-height:18px}
   @media (prefers-reduced-motion: reduce){ .dot.me.animate{transition:none} .progress i{transition:none} }
 </style>
 </head>
@@ -87,12 +90,13 @@ const T = {
   en: {
     brand: "Manager communication",
     title: "Cultural Communication Mapping",
-    lead: "Six quick questions about how you tend to communicate and how you give feedback. At the end you'll see your own defaults plotted next to where people raised in Japan, Korea and the US tend to sit. Nothing is saved or sent anywhere.",
+    lead: "Nine quick questions about how you give instructions, how you give feedback, and where and when you choose to have those conversations. At the end you'll see your own defaults plotted next to where people raised in Japan, Korea and the US tend to sit. Nothing is saved or sent anywhere.",
     start: "Start", next: "Next", back: "Back", finish: "See my results", again: "Start again",
+    save: "Save as image", share: "Share", cardFoot: "Cultural Communication Mapping", closestPlain: (c)=>`Closest to ${c}`,
     count: (i,n)=>`${i} of ${n}`,
     resultsTitle: "Your defaults, and the distance you're managing across",
     resultsLead: "The large blue dot is you. The smaller coloured dots are where people raised in each place tend to sit. The gap between your dot and theirs is the distance you're managing across.",
-    approx: "Culture positions are approximate, after Erin Meyer, The Culture Map (2014). They describe tendencies of populations, not any individual who reports to you.",
+    approx: "Communicating and Giving feedback follow Erin Meyer, The Culture Map (2014); Time and place is drawn from practitioner accounts. All positions are approximate and describe tendencies of populations, not any individual who reports to you.",
     you: "You", jp: "Japan", kr: "Korea", us: "US",
     closest: (c)=>`Closest to <strong>${c}</strong>-raised defaults.`,
     habitsTitle: "What to do with this",
@@ -105,6 +109,9 @@ const T = {
       { key:"eval", name:"Giving feedback", sub:"How directly you deliver a critical message", l:"Direct", r:"Indirect",
         low:"You say it plainly. To a Japan-raised report that can land as severe — the setting and register need to carry the respect. Formal, private, scheduled.",
         high:"You soften. A US-raised report may not hear that there's a problem at all, and a Korea-raised one may hear only the cushion. Make the behaviour explicit, then check what they heard." },
+      { key:"set", name:"Time and place", sub:"How much setting and preparation you give a conversation that matters", l:"Informal, right away", r:"Formal, prepared",
+        low:"You keep it quick and light \u2014 catch them after, drop a message. A US-raised report finds that normal and welcome. A Japan-raised report may read corridor feedback as not taking it, or them, seriously. A Korea-raised report may not register it as feedback at all.",
+        high:"You give it structure \u2014 a room, a scheduled time, a prepared message. A Japan-raised report reads that as respect. But a US-raised report often reads a booked meeting as \u201CI\u2019m in trouble\u201D before you have said a word. Put the purpose in the invite." },
       ],
     questions: [
       { s:"comm", q:"You've asked one of your direct reports to prepare something for Thursday's meeting. How much do you spell out?", o:[
@@ -137,18 +144,34 @@ const T = {
         "Same day, in a scheduled few minutes.",
         "At the next one-to-one, framed as development.",
         "Indirectly — I'd model it, or mention it generally to the team." ]},
+      { s:"set", q:"One of your direct reports handled a question badly in this morning's meeting. When and where do you raise it?", o:[
+        "Catch them straight after, in the corridor.",
+        "Send them a message this afternoon.",
+        "Find ten minutes and a room, later today.",
+        "Save it for tomorrow's scheduled one-to-one." ]},
+      { s:"set", q:"Your team's targets are changing next month. How do you tell them?", o:[
+        "Post it in the team channel.",
+        "Post it, then pick it up at the next team meeting.",
+        "Raise it at the team meeting, then confirm in writing.",
+        "Speak to each person individually first, then announce it." ]},
+      { s:"set", q:"A direct report did excellent work on something difficult. You:", o:[
+        "Say so in the team channel, where everyone sees it.",
+        "Mention it at the start of the next team meeting.",
+        "Tell them directly, one to one.",
+        "Tell them privately, and make sure their skip-level hears about it." ]},
       ]
   },
 
   ko: {
     brand: "매니저 커뮤니케이션",
     title: "문화별 커뮤니케이션 매핑",
-    lead: "소통하는 방식과 피드백을 주는 방식에 대한 6개의 짧은 질문입니다. 마지막에 여러분의 기본 성향이 일본·한국·미국에서 자란 사람들이 보통 위치하는 지점과 함께 표시됩니다. 어떤 것도 저장되거나 전송되지 않습니다.",
+    lead: "지시를 전달하는 방식, 피드백을 주는 방식, 그리고 그런 대화를 언제 어디서 하는지에 대한 9개의 짧은 질문입니다. 마지막에 여러분의 기본 성향이 일본·한국·미국에서 자란 사람들이 보통 위치하는 지점과 함께 표시됩니다. 어떤 것도 저장되거나 전송되지 않습니다.",
     start: "시작", next: "다음", back: "이전", finish: "결과 보기", again: "다시 하기",
+    save: "이미지로 저장", share: "공유하기", cardFoot: "문화별 커뮤니케이션 매핑", closestPlain: (c)=>`${c}에 가장 가까움`,
     count: (i,n)=>`${n}개 중 ${i}번째`,
     resultsTitle: "나의 기본 성향, 그리고 내가 관리해야 하는 거리",
     resultsLead: "큰 파란 점이 여러분입니다. 작은 색깔 점은 각 지역에서 자란 사람들이 보통 위치하는 곳입니다. 여러분의 점과 그들의 점 사이의 거리가 바로 여러분이 넘어야 할 거리입니다.",
-    approx: "문화 위치는 에린 마이어의 『컬처 맵』(2014)을 참고한 대략적인 값입니다. 집단의 경향을 설명하는 것이며, 여러분에게 보고하는 특정 개인을 설명하는 것은 아닙니다.",
+    approx: "소통 방식과 피드백 척도는 에린 마이어의 『컬처 맵』(2014)을 따르며, 때와 장소는 현장 사례를 바탕으로 했습니다. 모두 대략적인 값이며 집단의 경향을 설명하는 것이지, 여러분에게 보고하는 특정 개인을 설명하는 것은 아닙니다.",
     you: "나", jp: "일본", kr: "한국", us: "미국",
     closest: (c)=>`<strong>${c}</strong>에서 자란 사람들의 기본 성향에 가장 가깝습니다.`,
     habitsTitle: "이 결과로 무엇을 할까",
@@ -161,6 +184,9 @@ const T = {
       { key:"eval", name:"피드백 주기", sub:"비판적인 메시지를 얼마나 직접적으로 전달하는지", l:"직접적", r:"간접적",
         low:"여러분은 있는 그대로 말합니다. 일본에서 자란 직속 팀원에게는 매우 심각하게 들릴 수 있습니다. 자리와 어투가 존중을 담아야 합니다 — 공식적으로, 개인적으로, 미리 정해서.",
         high:"여러분은 부드럽게 말합니다. 미국에서 자란 직속 팀원은 문제가 있다는 것 자체를 못 들을 수 있고, 한국에서 자란 팀원은 완충 표현만 들을 수 있습니다. 행동을 명확히 말하고, 무엇을 들었는지 확인하세요." },
+      { key:"set", name:"때와 장소", sub:"중요한 대화에 얼마나 격식과 준비를 두는지", l:"바로, 편하게", r:"격식 있게, 준비해서",
+        low:"여러분은 가볍고 빠르게 처리합니다 \u2014 끝나고 바로 붙잡거나, 메시지를 보내거나. 미국에서 자란 직속 팀원에게는 자연스럽고 반가운 방식입니다. 일본에서 자란 팀원은 복도에서 하는 피드백을 진지하게 받아들이지 않는 신호로 읽을 수 있고, 한국에서 자란 팀원은 그것을 피드백으로 인식하지 못할 수도 있습니다.",
+        high:"여러분은 자리를 만듭니다 \u2014 회의실, 정해진 시간, 준비된 메시지. 일본에서 자란 직속 팀원은 이를 존중으로 읽습니다. 하지만 미국에서 자란 팀원은 회의가 잡히는 순간, 말을 꺼내기도 전에 \u201C내가 문제가 있구나\u201D로 받아들이는 경우가 많습니다. 초대에 목적을 적어 두세요." },
       ],
     questions: [
       { s:"comm", q:"직속 팀원에게 목요일 회의 자료를 준비해 달라고 했습니다. 얼마나 자세히 설명하나요?", o:[
@@ -193,18 +219,34 @@ const T = {
         "같은 날, 몇 분 시간을 잡아서.",
         "다음 1:1에서, 성장 관점으로.",
         "간접적으로 — 직접 보여주거나, 팀 전체에 일반적으로 언급한다." ]},
+      { s:"set", q:"오늘 아침 회의에서 직속 팀원이 질문에 잘 대응하지 못했습니다. 언제, 어디서 이야기하나요?", o:[
+        "회의 끝나고 바로, 복도에서.",
+        "오후에 메시지를 보낸다.",
+        "오늘 중에 10분과 회의실을 잡는다.",
+        "내일 예정된 1:1까지 미룬다." ]},
+      { s:"set", q:"다음 달부터 팀의 목표가 바뀝니다. 어떻게 알리나요?", o:[
+        "팀 채널에 올린다.",
+        "채널에 올리고, 다음 팀 미팅에서 다시 다룬다.",
+        "팀 미팅에서 먼저 말하고, 이후 문서로 정리해 보낸다.",
+        "먼저 한 명씩 개별로 이야기하고, 그다음 공지한다." ]},
+      { s:"set", q:"직속 팀원이 어려운 일을 아주 잘 해냈습니다. 여러분은:", o:[
+        "모두가 보는 팀 채널에 올린다.",
+        "다음 팀 미팅 시작할 때 언급한다.",
+        "1:1로 직접 이야기한다.",
+        "개인적으로 이야기하고, 그 위 상급자에게도 전해지도록 한다." ]},
       ]
   },
 
   ja: {
     brand: "マネージャー・コミュニケーション",
     title: "カルチャー・コミュニケーション・マッピング",
-    lead: "コミュニケーションとフィードバックのスタイルについて、6つの短い質問です。最後に、あなた自身の傾向が、日本・韓国・米国で育った人が一般的に位置する場所と並べて表示されます。回答はどこにも保存・送信されません。",
+    lead: "指示の伝え方、フィードバックの伝え方、そしてそうした会話をいつどこで行うかについて、9つの短い質問です。最後に、あなた自身の傾向が、日本・韓国・米国で育った人が一般的に位置する場所と並べて表示されます。回答はどこにも保存・送信されません。",
     start: "はじめる", next: "次へ", back: "戻る", finish: "結果を見る", again: "もう一度",
+    save: "画像として保存", share: "共有する", cardFoot: "カルチャー・コミュニケーション・マッピング", closestPlain: (c)=>`${c}に最も近い`,
     count: (i,n)=>`${n}問中 ${i}問目`,
     resultsTitle: "あなたの傾向と、あなたが橋渡しする距離",
     resultsLead: "大きい青い点があなたです。小さい色付きの点は、それぞれの場所で育った人が一般的に位置する場所です。あなたの点と彼らの点の間の距離が、あなたが橋渡しする距離です。",
-    approx: "文化の位置は、エリン・メイヤー『異文化理解力』(2014) を参考にしたおおよその値です。集団の傾向を示すもので、あなたに報告する特定の個人を示すものではありません。",
+    approx: "コミュニケーションとフィードバックはエリン・メイヤー『異文化理解力』(2014) に基づき、時と場所は実務での観察に基づいています。いずれもおおよその値で、集団の傾向を示すものです。あなたに報告する特定の個人を示すものではありません。",
     you: "あなた", jp: "日本", kr: "韓国", us: "米国",
     closest: (c)=>`<strong>${c}</strong>で育った人の傾向に最も近いです。`,
     habitsTitle: "この結果をどう活かすか",
@@ -217,6 +259,9 @@ const T = {
       { key:"eval", name:"フィードバック", sub:"批判的なメッセージをどれだけ直接的に伝えるか", l:"直接的", r:"間接的",
         low:"あなたははっきり言います。日本で育った直属のメンバーには厳しく響くことがあります。場と言葉遣いで敬意を示す必要があります — 正式に、個別に、事前に時間を取って。",
         high:"あなたは和らげて伝えます。米国で育った直属のメンバーは問題があること自体に気づかないかもしれず、韓国で育ったメンバーは緩衝の言葉だけを聞くかもしれません。行動を明確に伝え、何が伝わったか確認してください。" },
+      { key:"set", name:"時と場所", sub:"重要な会話にどれだけ場と準備を用意するか", l:"すぐ、気軽に", r:"改まって、準備して",
+        low:"あなたは手短に、気軽に伝えます \u2014 終わった直後に声をかける、メッセージを送る。米国で育った直属のメンバーには自然で歓迎されます。日本で育ったメンバーは、廊下でのフィードバックを真剣に受け止めていない合図と読むかもしれません。韓国で育ったメンバーは、それをフィードバックとして認識しないかもしれません。",
+        high:"あなたは場を整えます \u2014 部屋、時間、準備した言葉。日本で育った直属のメンバーはそれを敬意と読みます。ただし米国で育ったメンバーは、会議が設定された時点で、まだ何も言われていないのに「自分は問題があるのだ」と受け取ることが多いです。招待に目的を書いてください。" },
       ],
     questions: [
       { s:"comm", q:"直属のメンバーに木曜の会議の資料を準備してもらうことにしました。どこまで具体的に伝えますか？", o:[
@@ -249,6 +294,21 @@ const T = {
         "同じ日に、時間を取って。",
         "次の1on1で、成長の観点で。",
         "間接的に — 自分がやって見せる、またはチーム全体に一般論として話す。" ]},
+      { s:"set", q:"今朝の会議で、直属のメンバーが質問にうまく対応できませんでした。いつ、どこで伝えますか？", o:[
+        "会議の直後に、廊下で声をかける。",
+        "午後にメッセージを送る。",
+        "今日中に10分と部屋を確保する。",
+        "明日の1on1まで取っておく。" ]},
+      { s:"set", q:"来月からチームの目標が変わります。どう伝えますか？", o:[
+        "チームチャンネルに投稿する。",
+        "投稿してから、次のチームミーティングで取り上げる。",
+        "チームミーティングで先に話し、その後で文書にして送る。",
+        "先に一人ずつ個別に話し、それから発表する。" ]},
+      { s:"set", q:"直属のメンバーが難しい仕事を非常にうまくやり遂げました。あなたは：", o:[
+        "全員が見るチームチャンネルに書く。",
+        "次のチームミーティングの冒頭で触れる。",
+        "1対1で直接伝える。",
+        "個別に伝え、その上の上位者の耳にも入るようにする。" ]},
       ]
   }
 };
@@ -256,13 +316,14 @@ const T = {
 // Culture marker positions per scale, 0–100 (approximate, after Meyer)
 const CULT = {
   comm: { us: 8,  kr: 74, jp: 94 },
-  eval: { us: 30, kr: 72, jp: 92 }
+  eval: { us: 30, kr: 72, jp: 92 },
+  set:  { us: 12, kr: 60, jp: 88 }
 };
 
 // ---------------------------------------------------------------- state
 let lang = (navigator.language||"en").startsWith("ko") ? "ko" : (navigator.language||"en").startsWith("ja") ? "ja" : "en";
 let step = -1;            // -1 intro, 0..11 questions, 12 results
-let answers = new Array(6).fill(null);
+let answers = new Array(9).fill(null);
 const app = document.getElementById("app");
 
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
@@ -284,25 +345,25 @@ function render(){
     html += `<h1>${esc(t.title)}</h1><p class="lead">${esc(t.lead)}</p>
       <div><button class="btn" id="start">${esc(t.start)}</button></div>
       <p class="foot">${esc(t.approx)}</p>`;
-  } else if (step < 6){
+  } else if (step < 9){
     const q = t.questions[step];
-    const pct = Math.round((step/6)*100);
+    const pct = Math.round((step/9)*100);
     html += `<div class="progress"><i style="width:${pct}%"></i></div>
-      <div class="count">${esc(t.count(step+1,6))}</div>
+      <div class="count">${esc(t.count(step+1,9))}</div>
       <p class="q">${esc(q.q)}</p>
       <div class="opts" role="radiogroup">
         ${q.o.map((o,i)=>`<button class="opt" role="radio" aria-pressed="${answers[step]===i}" aria-checked="${answers[step]===i}" data-i="${i}">${esc(o)}</button>`).join("")}
       </div>
       <div class="nav">
         <button class="btn secondary" id="back">${esc(t.back)}</button>
-        <button class="btn" id="next" ${answers[step]===null?"disabled":""}>${esc(step===5?t.finish:t.next)}</button>
+        <button class="btn" id="next" ${answers[step]===null?"disabled":""}>${esc(step===8?t.finish:t.next)}</button>
       </div>`;
   } else {
     html += results();
   }
   app.innerHTML = html;
   bind();
-  if (step===6) requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  if (step===9) requestAnimationFrame(()=>requestAnimationFrame(()=>{
     document.querySelectorAll(".dot.me").forEach(d=>{ d.style.left = d.dataset.left + "%"; });
   }));
   window.scrollTo({top:0});
@@ -310,7 +371,7 @@ function render(){
 
 function scores(){
   const t = T[lang];
-  const sum = {comm:0,eval:0};
+  const sum = {comm:0,eval:0,set:0};
   t.questions.forEach((q,i)=>{ sum[q.s] += (answers[i] ?? 0) + 1; });
   const pos = {};
   for (const k in sum) pos[k] = Math.round(((sum[k]-3)/9)*100); // 3..12 → 0..100
@@ -341,8 +402,97 @@ function results(){
     </section>`;
   });
   html += `<p class="note">${esc(t.approx)}</p>
-    <div style="margin-top:22px"><button class="btn secondary" id="again">${esc(t.again)}</button></div>`;
+    <div class="actions">
+      <button class="btn" id="save">${esc(t.save)}</button>
+      <button class="btn secondary" id="share" hidden>${esc(t.share)}</button>
+    </div>
+    <p class="saved" id="saved" role="status"></p>
+    <div style="margin-top:14px"><button class="btn secondary" id="again">${esc(t.again)}</button></div>`;
   return html;
+}
+
+
+// ---------------------------------------------------------------- result card
+function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+
+function drawCard(){
+  const t = T[lang], pos = scores();
+  const W = 1080, H = 1090, P = 80;
+  const cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  const g = cv.getContext("2d");
+  const fam = getComputedStyle(document.body).fontFamily;
+
+  const BRAND = cssVar("--brand") || "#0B5FCE";
+  const DARK  = cssVar("--brand-dark") || "#0A4C9E";
+  const INK   = cssVar("--ink") || "#111823";
+  const SLATE = cssVar("--slate") || "#4A5563";
+  const LINE  = cssVar("--line") || "#D3D8DF";
+  const CC = { us: cssVar("--c-us")||"#7FB3E8", kr: cssVar("--c-kr")||"#7ACBB4", jp: cssVar("--c-jp")||"#E3A76F" };
+  const names = { jp:t.jp, kr:t.kr, us:t.us };
+
+  g.fillStyle = "#fff"; g.fillRect(0,0,W,H);
+
+  // header
+  g.fillStyle = BRAND; g.fillRect(0,0,W,14);
+  g.fillStyle = INK;
+  g.font = `700 46px ${fam}`;
+  g.textBaseline = "alphabetic";
+  g.fillText(t.cardFoot, P, 128);
+
+  let y = 210;
+  t.scales.forEach(sc=>{
+    const me = pos[sc.key], c = CULT[sc.key];
+    const dist = Object.entries(c).map(([k,v])=>[k,Math.abs(v-me)]).sort((a,b)=>a[1]-b[1]);
+    const closest = names[dist[0][0]];
+
+    g.fillStyle = INK; g.font = `700 34px ${fam}`;
+    g.fillText(sc.name, P, y);
+
+    // rail
+    const x0 = P + 40, x1 = W - P - 40, len = x1 - x0, ry = y + 96;
+    g.strokeStyle = LINE; g.lineWidth = 5; g.lineCap = "round";
+    g.beginPath(); g.moveTo(x0, ry); g.lineTo(x1, ry); g.stroke();
+
+    // end labels
+    g.fillStyle = SLATE; g.font = `400 22px ${fam}`;
+    g.textAlign = "left";  g.fillText(sc.l, P, y + 52);
+    g.textAlign = "right"; g.fillText(sc.r, W - P, y + 52);
+    g.textAlign = "center";
+
+    // country dots
+    [["us",CC.us],["kr",CC.kr],["jp",CC.jp]].forEach(([k,col])=>{
+      const cx = x0 + len * (c[k]/100);
+      g.beginPath(); g.arc(cx, ry, 15, 0, Math.PI*2);
+      g.fillStyle = col; g.fill();
+      g.lineWidth = 4; g.strokeStyle = "#fff"; g.stroke();
+      g.fillStyle = SLATE; g.font = `600 21px ${fam}`;
+      g.fillText(names[k], cx, ry + 46);
+    });
+
+    // you
+    const mx = x0 + len * (me/100);
+    g.beginPath(); g.arc(mx, ry, 24, 0, Math.PI*2);
+    g.fillStyle = BRAND; g.fill();
+    g.lineWidth = 6; g.strokeStyle = "#fff"; g.stroke();
+    g.fillStyle = DARK; g.font = `700 23px ${fam}`;
+    g.fillText(t.you, mx, ry - 40);
+
+    g.textAlign = "left";
+    g.fillStyle = DARK; g.font = `600 25px ${fam}`;
+    g.fillText(t.closestPlain(closest), P, ry + 108);
+
+    y += 310;
+  });
+
+  return cv;
+}
+
+function cardFile(cb){
+  drawCard().toBlob(b=>{
+    if(!b) return cb(null);
+    cb(new File([b], "culture-mapping.png", { type:"image/png" }));
+  }, "image/png");
 }
 
 function bind(){
@@ -354,7 +504,33 @@ function bind(){
   }));
   const n=document.getElementById("next"); if(n) n.addEventListener("click",()=>{ if(answers[step]!==null){ step++; render(); } });
   const bk=document.getElementById("back"); if(bk) bk.addEventListener("click",()=>{ step = step===0 ? -1 : step-1; render(); });
-  const a=document.getElementById("again"); if(a) a.addEventListener("click",()=>{ answers=new Array(6).fill(null); step=-1; render(); });
+  const a=document.getElementById("again"); if(a) a.addEventListener("click",()=>{ answers=new Array(9).fill(null); step=-1; render(); });
+
+  const sv=document.getElementById("save");
+  if(sv) sv.addEventListener("click",()=>{
+    try{
+      const url = drawCard().toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = url; link.download = "culture-mapping.png";
+      document.body.appendChild(link); link.click(); link.remove();
+      const n=document.getElementById("saved"); if(n) n.textContent = "\u2713";
+    }catch(e){ const n=document.getElementById("saved"); if(n) n.textContent = "—"; }
+  });
+
+  const sh=document.getElementById("share");
+  if(sh){
+    let probe;
+    try{ probe = new File([new Blob(["x"])], "a.png", {type:"image/png"}); }catch(e){ probe = null; }
+    if(probe && navigator.canShare && navigator.canShare({files:[probe]})){
+      sh.hidden = false;
+      sh.addEventListener("click",()=>{
+        cardFile(f=>{
+          if(!f) return;
+          navigator.share({ files:[f], title: T[lang].cardFoot }).catch(()=>{});
+        });
+      });
+    }
+  }
 }
 
 render();
